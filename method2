@@ -1,0 +1,70 @@
+from math import fabs
+
+def norma_key (key):
+    if key < 0:
+        key = key*-1
+    while key%2 == 0 or key == 13:
+        key -=1
+    while key > 25:
+        key -= 1
+    return key
+
+
+def ord_list (word):
+    l=[]
+    for i in word:
+        l.append(ord(i))
+    return l
+
+def normalize_l (l):
+    for i in range (len(l)):
+        if l[i]<91 and l[i]!=32:
+            l[i]= l [i] - 65
+        if l[i]>96 and l[i]!=32:
+            l[i]=l[i]-97
+    return l
+
+
+
+def encrypt (l, key, b):
+    for i in range (len(l)):
+        if l[i] <91 and l[i] != 32:
+            l[i] = (l[i]*key + b)%26 + 65
+        if l[i] > 96 and l[i] !=32:
+            l[i] = (l[i] * key + b) % 26 + 97
+    return l
+
+def decrypt (l, key, b):
+    for i in range (len(l)):
+        if l[i] <91 and l[i] != 32:
+            l[i] = int(((l[i] - b)*27/key)%26 + 65)
+        if l[i] >96 and l[i] != 32:
+            l[i] = int(((l[i]- b)*27/key)%26 + 97)
+    return l
+
+
+def get_string(input_list):
+    s = ''
+    for i in input_list:
+        s += chr(int(i))
+    return s
+
+
+
+
+key = int(input())
+b = int(input())
+text = 'AA TCK ZZF DAA helloo aazz'
+print(norma_key(key))
+test = ord_list(text)
+print(test)
+nor_test = normalize_l(test)
+print(nor_test)
+new = encrypt(nor_test, key, b)
+print(new)
+print(get_string(new))
+nor_new = normalize_l(new)
+print(nor_new)
+de=decrypt(nor_new, key, b)
+print(de)
+print(get_string(de))
